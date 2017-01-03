@@ -1,0 +1,15 @@
+## generated data:
+*~
+*.dot
+*.bak
+.ilua_history
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+lib
+bin
+build
+
+/CMakeLists.txt.user

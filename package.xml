@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package>
+  <name>expressiongraph_solver_qpoases</name>
+  <description>
+      expressiongraph_solver_qpoases defines an eTaSL solver  that implements a velocity
+      resolved instantaneous controller using the qpOASES active set QP-solver.
+
+  </description>
+  <version>0.1.0</version>
+  <author>Erwin Aertbelien</author>
+  <license>To Be Determined</license>
+  <maintainer email="erwin.aertbelien@kuleuven.be">Erwin Aertbelien</maintainer>
+  <author email="erwin.aertbelien@kuleuven.be">Erwin Aertbelien</author>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>expressiongraph</build_depend>
+  <run_depend>expressiongraph</run_depend>
+  <build_depend>expressiongraph_context</build_depend>
+  <run_depend>expressiongraph_context</run_depend>
+  <test_depend>gtest</test_depend>
+  <build_depend>cmake_modules</build_depend>
+  <run_depend>cmake_modules</run_depend>
+</package>
+
+
