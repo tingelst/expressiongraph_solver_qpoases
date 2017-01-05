@@ -16,9 +16,6 @@ add_definitions( -D__NO_COPYRIGHT__ )
 INCLUDE_DIRECTORIES(
     ${PROJECT_SOURCE_DIR}/external/qpOASES/${qpOASES}/include ${catkin_INCLUDE_DIRS})
 
-ADD_SUBDIRECTORY( external/qpOASES )
-#message("${Red}${PROJECT_SOURCE_DIR}/external/qpOASES/${qpOASES}/include")
-
 
 add_library(${PROJECT_NAME}  src/qpoases_messages.cpp      
                              src/qpoases_solver.cpp 
@@ -28,12 +25,19 @@ target_link_libraries(${PROJECT_NAME} expressiongraph qpOASES ${catkin_LIBRARIES
 
 catkin_package(
   INCLUDE_DIRS include ${PROJECT_SOURCE_DIR}/external/qpOASES/${qpOASES}/include
-  LIBRARIES ${PROJECT_NAME} expressiongraph
+  LIBRARIES ${PROJECT_NAME} expressiongraph qpOASES
   CATKIN_DEPENDS expressiongraph
   DEPENDS expressiongraph)
 
+ADD_SUBDIRECTORY( external/qpOASES )
+#message("${Red}${PROJECT_SOURCE_DIR}/external/qpOASES/${qpOASES}/include")
 
 
+
+install(TARGETS ${PROJECT_NAME}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 install(DIRECTORY external/qpOASES/${qpOASES}/include/
         DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
