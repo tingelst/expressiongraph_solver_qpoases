@@ -1,19 +1,14 @@
-#SET(qpOASES qpOASES-3.0beta)
-#INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/external/qpOASES/${qpOASES}/include)
+add_definitions(-D__NO_COPYRIGHT__)
 
-# compile qpOASES libraries
-FILE(GLOB SRC ${qpOASES}/src/*.cpp )
-FILE(GLOB EXTRAS_SRC ${qpOASES}/src/extras/*.cpp )
+file(GLOB SRC ${qpOASES}/src/*.cpp)
+file(GLOB EXTRAS_SRC ${qpOASES}/src/extras/*.cpp)
 
-add_definitions( -D__NO_COPYRIGHT__ )
-if(NOT USE_ROSBUILD)
-    add_library(qpOASES ${SRC} ${EXTRAS_SRC})
-    install(TARGETS qpOASES 
-      ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-      LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-      RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-elseif()
-  rosbuild_add_library(qpOASES ${SRC} ${EXTRAS_SRC})
-endif()
+add_library(qpOASES SHARED ${SRC} ${EXTRAS_SRC})
+target_include_directories(qpOASES PRIVATE ${qpOASES}/include)
 
+install(DIRECTORY ${qpOASES}/include/ DESTINATION include)
 
+install(TARGETS qpOASES
+        RUNTIME DESTINATION bin
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib)

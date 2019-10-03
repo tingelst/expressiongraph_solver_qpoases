@@ -1,25 +1,28 @@
 <?xml version="1.0"?>
-<package>
+<?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="2">
   <name>expressiongraph_solver_qpoases</name>
   <description>
-      expressiongraph_solver_qpoases defines an eTaSL solver  that implements a velocity
+      expressiongraph_solver_qpoases defines an eTaSL solver that implements a velocity
       resolved instantaneous controller using the qpOASES active set QP-solver.
-
   </description>
   <version>0.1.0</version>
   <author>Erwin Aertbelien</author>
   <license>GNU LGPL v3</license>
-  <maintainer email="erwin.aertbelien@kuleuven.be">Erwin Aertbelien</maintainer>
+
+  <!-- <maintainer email="erwin.aertbelien@kuleuven.be">Erwin Aertbelien</maintainer> -->
+  <maintainer email="lars.tingelstad@ntnu.no">Lars Tingelstad</maintainer>
   <author email="erwin.aertbelien@kuleuven.be">Erwin Aertbelien</author>
-  
-  <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>expressiongraph</build_depend>
-  <run_depend>expressiongraph</run_depend>
-  <build_depend>expressiongraph_context</build_depend>
-  <run_depend>expressiongraph_context</run_depend>
-  <test_depend>gtest</test_depend>
-  <build_depend>cmake_modules</build_depend>
-  <run_depend>cmake_modules</run_depend>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>orocos_kdl</depend>
+  <depend>expressiongraph</depend>
+  <depend>expressiongraph_context</depend>
+
+  <!-- <test_depend>gtest</test_depend> -->
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 </package>
-
-

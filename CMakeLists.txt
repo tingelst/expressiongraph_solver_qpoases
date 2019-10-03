@@ -1,52 +1,52 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(expressiongraph_solver_qpoases)
 
-find_package(catkin  REQUIRED)
-find_package(cmake_modules REQUIRED)
-find_package(PkgConfig REQUIRED)
-find_package(catkin REQUIRED COMPONENTS expressiongraph expressiongraph_context)
-include_directories( include ${catkin_INCLUDE_DIRS})
+# Default to C++14
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+endif()
 
-# external libraries:
-SET(qpOASES qpOASES-3.0beta)
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
-add_definitions( -D__NO_COPYRIGHT__ )
+find_package(ament_cmake REQUIRED)
 
+find_package(orocos_kdl REQUIRED)
+find_package(expressiongraph REQUIRED)
+find_package(expressiongraph_context REQUIRED)
 
-INCLUDE_DIRECTORIES(
-    ${PROJECT_SOURCE_DIR}/external/qpOASES/${qpOASES}/include ${catkin_INCLUDE_DIRS})
+set(qpOASES qpOASES-3.0beta)
 
+add_library(${PROJECT_NAME} SHARED src/qpoases_messages.cpp
+                                   src/qpoases_solver.cpp)
 
-add_library(${PROJECT_NAME}  src/qpoases_messages.cpp      
-                             src/qpoases_solver.cpp 
-                             )
+target_include_directories(${PROJECT_NAME}
+                           PRIVATE include external/qpOASES/${qpOASES}/include)
 
-target_link_libraries(${PROJECT_NAME} expressiongraph qpOASES ${catkin_LIBRARIES})
+ament_target_dependencies(${PROJECT_NAME}
+                          orocos_kdl
+                          expressiongraph
+                          expressiongraph_context
+                          qpOASES)
 
-catkin_package(
-  INCLUDE_DIRS include ${PROJECT_SOURCE_DIR}/external/qpOASES/${qpOASES}/include
-  LIBRARIES ${PROJECT_NAME} expressiongraph qpOASES
-  CATKIN_DEPENDS expressiongraph
-  DEPENDS expressiongraph)
+add_subdirectory(external/qpOASES)
 
-ADD_SUBDIRECTORY( external/qpOASES )
-#message("${Red}${PROJECT_SOURCE_DIR}/external/qpOASES/${qpOASES}/include")
-
-
-
-install(TARGETS ${PROJECT_NAME}
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+install(DIRECTORY include/ DESTINATION include)
 
 install(DIRECTORY external/qpOASES/${qpOASES}/include/
-        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-        FILES_MATCHING PATTERN "*.hpp"
+        DESTINATION include
+        FILES_MATCHING
+        PATTERN "*.hpp"
         PATTERN ".svn" EXCLUDE)
- 
-install(DIRECTORY include/
-        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-        FILES_MATCHING PATTERN "*.hpp"
-        PATTERN ".svn" EXCLUDE)
-   
-  
+
+install(TARGETS ${PROJECT_NAME}
+        RUNTIME DESTINATION bin
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib)
+
+ament_export_include_directories(include)
+
+ament_export_libraries(${PROJECT_NAME})
+
+ament_package()
