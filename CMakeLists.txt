@@ -12,9 +12,10 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 
-find_package(orocos_kdl REQUIRED)
 find_package(expressiongraph REQUIRED)
 find_package(expressiongraph_context REQUIRED)
+
+set(DEPENDENCIES expressiongraph expressiongraph_context)
 
 set(qpOASES qpOASES-3.0beta)
 
@@ -24,11 +25,7 @@ add_library(${PROJECT_NAME} SHARED src/qpoases_messages.cpp
 target_include_directories(${PROJECT_NAME}
                            PRIVATE include external/qpOASES/${qpOASES}/include)
 
-ament_target_dependencies(${PROJECT_NAME}
-                          orocos_kdl
-                          expressiongraph
-                          expressiongraph_context
-                          qpOASES)
+ament_target_dependencies(${PROJECT_NAME} ${DEPENDENCIES} qpOASES)
 
 add_subdirectory(external/qpOASES)
 
@@ -48,5 +45,7 @@ install(TARGETS ${PROJECT_NAME}
 ament_export_include_directories(include)
 
 ament_export_libraries(${PROJECT_NAME})
+
+ament_export_dependencies(${DEPENDENCIES})
 
 ament_package()
