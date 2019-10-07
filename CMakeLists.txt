@@ -15,9 +15,8 @@ find_package(ament_cmake REQUIRED)
 find_package(expressiongraph REQUIRED)
 find_package(expressiongraph_context REQUIRED)
 
-set(DEPENDENCIES expressiongraph expressiongraph_context)
-
 set(qpOASES qpOASES-3.0beta)
+set(DEPENDENCIES expressiongraph expressiongraph_context)
 
 add_library(${PROJECT_NAME} SHARED src/qpoases_messages.cpp
                                    src/qpoases_solver.cpp)
@@ -25,7 +24,9 @@ add_library(${PROJECT_NAME} SHARED src/qpoases_messages.cpp
 target_include_directories(${PROJECT_NAME}
                            PRIVATE include external/qpOASES/${qpOASES}/include)
 
-ament_target_dependencies(${PROJECT_NAME} ${DEPENDENCIES} qpOASES)
+target_link_libraries(${PROJECT_NAME} qpOASES)
+
+ament_target_dependencies(${PROJECT_NAME} ${DEPENDENCIES})
 
 add_subdirectory(external/qpOASES)
 
